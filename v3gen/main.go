@@ -22,17 +22,17 @@ const (
 func main() {
 	docV2, err := loadV2()
 	if err != nil {
-		log.Fatal("loadV2 failed")
+		log.Fatalf("unable to load openapi v2: %v", err)
 	}
 
 	docV3, err := convertToV3(docV2)
 	if err != nil {
-		log.Fatal("convertToV3 failed")
+		log.Fatalf("unable to convert to openapi v3 standards: %v", err)
 	}
 
 	err = writeOutDocV3(docV3)
 	if err != nil {
-		log.Fatalf("writeOutDocV3 failed: %+v", err)
+		log.Fatalf("unable to write openapi v3 files: %+v", err)
 	}
 }
 
