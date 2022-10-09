@@ -1,0 +1,69 @@
+components:
+  schemas:
+    Any:
+      additionalProperties: {}
+      properties:
+        '@type':
+          type: string
+      type: object
+    SayHelloResponse:
+      properties:
+        message:
+          type: string
+      type: object
+    Status:
+      properties:
+        code:
+          format: int32
+          type: integer
+        details:
+          items:
+            $ref: '#/components/schemas/Any'
+          type: array
+        message:
+          type: string
+      type: object
+info:
+  title: demo/hello/v1/service.proto
+  version: version not set
+openapi: 3.0.3
+paths:
+  /hello/{name}:
+    get:
+      description: Lets you say hello to someone
+      operationId: say_hello
+      parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SayHelloResponse'
+          description: Returned on success.
+        "404":
+          content:
+            application/json:
+              schema: {}
+          description: Returned when the person you want to say hello to can not be
+            found.
+        "500":
+          content:
+            application/json:
+              schema: {}
+          description: Internal server error.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+          description: An unexpected error response.
+      summary: Say Hello
+      tags:
+      - Hello
+tags:
+- name: HelloService

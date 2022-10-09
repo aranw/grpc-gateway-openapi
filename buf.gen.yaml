@@ -1,0 +1,23 @@
+version: v1
+plugins:
+  - remote: buf.build/protocolbuffers/plugins/go
+    out: api
+    opt:
+      - module=github.com/aranw/grpc-gateway-openapi/api
+      - paths=import
+  - remote: buf.build/grpc/plugins/go
+    out: api
+    opt:
+      - module=github.com/aranw/grpc-gateway-openapi/api
+      - paths=import
+  - remote: buf.build/cerbos/plugins/protoc-gen-validate
+    out: api
+    opt:
+      - module=github.com/aranw/grpc-gateway-openapi/api
+      - paths=import
+      - lang=go
+  - remote: buf.build/grpc-ecosystem/plugins/grpc-gateway
+    out: api
+    opt:
+      - module=github.com/aranw/grpc-gateway-openapi/api
+      - paths=import

@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+option go_package = "github.com/aranw/grpc-gateway-openapi/api/demo/bar/v1;barv1";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "validate/validate.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+package demo.bar.v1;
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    consumes : "application/json";
+        responses : {
+            key: "404";
+            value : {
+                description: "Returned when the resource does not exist.";
+            }
+    }
+};
+
+service BarService {
+    // Say Hello
+    // 
+    // Say hello takes the given parameter and says hello.
+    rpc GetDrink(GetDrinkRequest) returns (GetDrinkResponse) {
+        option (google.api.http) = {
+            get: "/bar/drink/{name}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            summary : "Get a Drink"
+            description : "Lets you geta drink"
+            operation_id : "get_drink"
+            tags: "Drink"
+            responses : {
+                key : "200";
+                value: {
+                  description: "Returned on success.";
+                }
+              }
+              responses : {
+                key: "404";
+                value: {
+                  description: "Returned when the requested drink does not exist.";
+                }
+              }
+              responses : {
+                key: "500";
+                value: {
+                  description: "Internal server error.";
+                }
+              }
+        };
+    }
+}
+
+message GetDrinkRequest {
+    string name = 1 [(validate.rules).string.uuid = true];
+}
+
+message GetDrinkResponse {
+    string message = 1;
+}

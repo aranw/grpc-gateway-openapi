@@ -1,0 +1,140 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "demo/bar/v1/service.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/bar/drink/{name}": {
+      "get": {
+        "summary": "Get a Drink",
+        "description": "Lets you geta drink",
+        "operationId": "get_drink",
+        "responses": {
+          "200": {
+            "description": "Returned on success.",
+            "schema": {
+              "$ref": "#/definitions/GetDrinkResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the requested drink does not exist.",
+            "schema": {}
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Drink"
+        ]
+      }
+    },
+    "/hello/{name}": {
+      "get": {
+        "summary": "Say Hello",
+        "description": "Lets you say hello to someone",
+        "operationId": "say_hello",
+        "responses": {
+          "200": {
+            "description": "Returned on success.",
+            "schema": {
+              "$ref": "#/definitions/SayHelloResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the person you want to say hello to can not be found.",
+            "schema": {}
+          },
+          "500": {
+            "description": "Internal server error.",
+            "schema": {}
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Hello"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "GetDrinkResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "SayHelloResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Any"
+          }
+        }
+      }
+    }
+  }
+}
