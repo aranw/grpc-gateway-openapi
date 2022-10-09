@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -62,25 +61,18 @@ func convertToV3(docV2 *openapi2.T) (*openapi3.T, error) {
 }
 
 func writeOutDocV3(docV3 *openapi3.T) error {
-	buf, err := docV3.MarshalJSON()
-	if err != nil {
-		return fmt.Errorf("failed to marshal spec3: %w", err)
-	}
-
-	indentBuf := &bytes.Buffer{}
-	err = json.Indent(indentBuf, buf, "", "	")
+	b, err := json.MarshalIndent(docV3, "", "\t")
 	if err != nil {
 		return fmt.Errorf("failed to indent docV3 json: %w", err)
 	}
 
-	err = os.WriteFile(v3FnameJSON, indentBuf.Bytes(), 0644)
-	if err != nil {
+	if err := os.WriteFile(v3FnameJSON, b, 0644); err != nil {
 		return fmt.Errorf("failed to write %s: %w", v3FnameJSON, err)
 	}
 
 	fmt.Println("created", v3FnameJSON)
 
-	yamlBuf, err := yaml.JSONToYAML(buf)
+	yamlBuf, err := yaml.JSONToYAML(b)
 	if err != nil {
 		return fmt.Errorf("failed to convert json docV3 to yaml: %w", err)
 	}
